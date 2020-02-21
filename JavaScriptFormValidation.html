@@ -1,0 +1,179 @@
+<!-- Project: Deliverable 5 - JavaScript -->
+<!-- Author: Vitor Crosera-->
+<!-- Date: 02/20/2020 -->
+<!-- Description: JavaScritp Form Validation -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<!--This is the title of the webpage-->
+	<title>Registration Form and Validation</title>
+	
+	<!--Define the variables and functions with Javascript-->
+	<script>
+		<!--Declare the array for the error message displaying area-->
+		var divs = [
+		  "errorFirstname", 
+		  "errorLastname", 
+		  "errorEmail",
+		  "errorUid", 
+		  "errorPassword", 
+		  "errorConformPassword"
+		];
+		
+		<!--Function to validate date each input area-->
+		function validate()
+		{
+			<!--Read all input areas-->
+			var inputs = [];
+			inputs[0] = document.getElementById("firstname").value;
+			inputs[1] = document.getElementById("lastname").value;
+			inputs[2] = document.getElementById("email").value;
+			inputs[3] = document.getElementById("uid").value;
+			inputs[4] = document.getElementById("password").value;
+			inputs[5] = document.getElementById("confirmpwd").value;
+			
+			<!--Declare the array for all error messages-->
+			var errors = [];
+			errors[0] = "<span style='color:red'> Please enter your first name!</span>"
+			errors[1] = "<span style='color:red'> Please enter your last name!</span>"
+			errors[2] = "<span style='color:red'> Please enter your email address!</span>"
+			errors[3] = "<span style='color:red'> Please enter your user ID!</span>"
+			errors[4] = "<span style='color:red'> Please enter your password!</span>"
+			errors[5] = "<span style='color:red'> Please confirm your password!</span>"
+			
+			<!--Validate the inputs-->
+			var i;
+			for (i=0; i<inputs.length; i++)
+			{
+				var errorMessage = errors[i];
+				var entry = divs[i];
+				
+				<!--If input is empty, display the error message-->
+				if (inputs[i] == "")
+					document.getElementById(entry).innerHTML = errorMessage;
+				else if (i == 2)
+				{
+					<!--Evaluate if the email input is valid-->
+					var atpos = inputs[i].indexOf("@");  <!--Get the index of symbol "@"-->
+					var dotpos = inputs[i].lastIndexOf("."); <!--Get the index of the last "."-->
+					
+					<!--atpos<1: "@" is not in the input or occurs in the beginning-->
+					<!--dotpos < atpos + 2: Two other digits have to be there between "@" and the last "."-->
+					<!--dotpos >= inputs[i].length: "@" cannot be the last symbol in the input-->
+					if (atpos < 1 || dotpos < atpos + 2 || dotpos >= inputs[i].length)
+						document.getElementById(entry).innerHTML = "<span style = 'color:red' > Please enter a valid email address!</span>";
+					else
+						<!--Otherwise displa messaige "OK!"-->
+						document.getElementById(entry).innerHTML = "OK!";
+				}
+				else if (i == 5) 
+				{
+					<!--Check the confirmation password-->
+					if (inputs[4] != inputs[5]) <!--If the first password does not match the second password-->
+						document.getElementById(entry).innerHTML = "<span style = 'color:red'> Your passwords don't match!</span>";
+					else
+						document.getElementById(entry).innerHTML = "OK!";
+				}
+				else
+					document.getElementById(entry).innerHTML = "OK!";
+			}
+		}
+		
+		<!--The validation function when clicking the "Create" button-->
+		function finalValidate()
+		{
+			var i;
+			var flag = 1;
+			for (i=0; i<divs.length; i++)
+			{
+				<!--Check if all error messages are "OK!"-->
+				if (document.getElementById(divs[i]).innerHTML != "OK!")
+					flag = 0;
+			}
+			
+			if (flag == 1) <!---Display the message if everything is OK->
+				document.getElementById("errorFinal").innerHTML = "All the data you entered is correct!"
+		}
+		
+	</script>
+</head>
+
+<body>
+<br>
+<!--Setting background color-->
+<button type="button" onclick="Color()">Set background color</button>
+<script>
+function Color() {
+  document.body.style.backgroundColor = "lightblue";
+}
+</script>
+
+<b>
+<h1> Registration Form and Validation </h1>
+<b>
+<p>Today's date and time:</p>
+<p id="demo"></p>
+
+<script>
+var d = new Date();
+document.getElementById("demo").innerHTML = d;
+</script>
+
+	<table>
+		<tr>
+			<td> First Name:</td>
+			<td><input type="text" id="firstname" onkeyup="validate();"/></td>
+			<td><div id="errorFirstname"></div></td>
+		</tr>
+		<tr>
+			<td> Last Name:</td>
+			<td><input type="text" id="lastname" onkeyup="validate();"/></td>
+			<td><div id="errorLastname"></div></td>
+		</tr>
+		<tr>
+			<td> Email:</td>
+			<td><input type="text" id="email" onkeyup="validate();"/></td>
+			<td><div id="errorEmail"></div></td>
+		</tr>
+		<tr>
+			<td> User ID:</td>
+			<td><input type="text" id="uid" onkeyup="validate();"/></td>
+			<td><div id="errorUid"></div></td>
+		</tr>
+		<tr>
+			<td> Password:</td>
+			<td><input type="password" id="password" onkeyup="validate();"/></td>
+			<td><div id="errorPassword"></div></td>
+		</tr>
+		<tr>
+			<td> Confirm Password:</td>
+			<td><input type="password" id="confirmpwd" onkeyup="validate();"/></td>
+			<td><div id="errorConformPassword"></div></td>
+		</tr>
+		<tr>
+			<td><input type="button" id="create" value="Create" onclick="validate();finalValidate();"/></td>
+			<td><div id="errorFinal"></div></td>
+		</tr>
+	</table>
+	
+	
+
+<!-- Adding Image -->
+<img id="myImg" src="IMAGE.jpg" alt="IMAGE" width="200" height="200">
+
+<p id="demo1"></p>
+
+<script>
+function GoBulls() {
+  var x = document.getElementById("myImg").src;
+  document.getElementById("demo1").innerHTML = x;
+}
+</script>
+
+</body>
+
+
+</html>
